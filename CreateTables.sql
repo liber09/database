@@ -1,36 +1,45 @@
-CREATE TABLE Customer (
-    ID int NOT NULL PRIMARY KEY,
+--Create table for customer
+CREATE TABLE Customers (
+    Id int IDENTITY(1,1) PRIMARY KEY,
     LastName varchar(255) NOT NULL,
     FirstName varchar(255) NOT NULL,
     StreetAddress varchar(255) NOT NULL,
 	PostalCode int NOT NULL,
-	City varchar(255) NOT NULL
+	City varchar(255) NOT NULL,
+	Email varchar(255),
+	PhoneNumber varchar(255)
 );
 
+--Create tabl for product
 CREATE TABLE Products (
-    ID int NOT NULL PRIMARY KEY,
+    Id int IDENTITY(1,1) PRIMARY KEY,
     Name varchar(255) NOT NULL,
     Description varchar(255),
 	Price decimal,
 );
-
+--Create table productImages, images in separate table for optimizing load times in situations where you want
+--Procuctinfo but not image data.
 CREATE TABLE ProductImages (
-    ID int NOT NULL PRIMARY KEY,
-	ProductId int ,
-    Name varchar(255) NOT NULL,
-    Image varbinary(MAX)
+    Id int IDENTITY(1,1) PRIMARY KEY,
+	ProductId int FOREIGN KEY REFERENCES Products(id) , --Which product does the image belong to
+    Name varchar(255) NOT NULL, --Name of the image
+    Image varbinary(MAX) --The image 
 );
 
-
-CREATE TABLE ORDERS (
-    ID int NOT NULL PRIMARY KEY,
-    CustomerID int NOT NULL,
-	TotalAmount decimal,
-	OrderStatus int
+--Create table for orders. CustomerID is foreign key to know what customer placed the order
+CREATE TABLE Orders (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    CustomerID int FOREIGN KEY REFERENCES Customer(id), --What customer placed the order
+	OrderDate DateTime, --Orderdate and time
+	TotalAmount decimal, --The total amount for the order
+	OrderStatus int  -- What is the status, ordered, preparing for delivery, ready for delivery, delivered
 );
 
+--Create table OrderRows, orderID is foreignKey to orders to know what order the row belongs to
+--ProductID is to know what product the orderrow concerns
 CREATE TABLE OrderRows(
-	ID int NOT NULL PRIMARY KEY,
-	OrderId int NOT NULL,
-	ProductId int NOT NULL,
-
+	Id int IDENTITY(1,1) PRIMARY KEY,
+	OrderId int FOREIGN KEY REFERENCES Orders(id), --What order
+	ProductId int FOREIGN KEY REFERENCES Products(id), --What product
+	Amount int  --Number of products
+);
