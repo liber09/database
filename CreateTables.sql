@@ -15,14 +15,13 @@ CREATE TABLE Products (
     Id int IDENTITY(1,1) PRIMARY KEY,
     Name varchar(255) NOT NULL,
     Description varchar(255),
-	Price decimal,
-);
+	Price decimal NOT NULL);
+
 --Create table productImages, images in separate table for optimizing load times in situations where you want
 --Procuctinfo but not image data.
 CREATE TABLE ProductImages (
     Id int IDENTITY(1,1) PRIMARY KEY,
-	ProductId int FOREIGN KEY REFERENCES Products(id) , --Which product does the image belong to
-    Name varchar(255) NOT NULL, --Name of the image
+	ProductId int NOT NULL FOREIGN KEY REFERENCES Products(id) , --Which product does the image belong to
     Image varbinary(MAX) --The image 
 );
 
