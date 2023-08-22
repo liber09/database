@@ -10,7 +10,7 @@ CREATE TABLE Customers (
 	PhoneNumber varchar(255)
 );
 
---Create tabl for product
+--Create table for product
 CREATE TABLE Products (
     Id int IDENTITY(1,1) PRIMARY KEY,
     Name varchar(255) NOT NULL,
